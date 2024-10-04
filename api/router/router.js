@@ -11,5 +11,7 @@ const personController = new PersonController(personUseCase)
 
 router.post('/person', (req, res) => personController.Register(req, res))
 router.get('/person', (req, res) => personController.GetAllPersons(req, res))
+router.get('/person/:person_id', (req, res) => personController.GetPersonByID(req, res))
+router.delete('/person/:person_id', (req, res) => personController.DeletePerson(req, res))
 
 module.exports = router

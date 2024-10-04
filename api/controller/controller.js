@@ -32,7 +32,7 @@ class PersonController {
     }
 
     async UpdatePerson(req, res) {
-        const personID = req.params("person_id")
+        const personID = req.params["person_id"]
         try {
             const {name, age, hobbies} = req.body
             if (name && (typeof name != 'string' ||
@@ -59,9 +59,9 @@ class PersonController {
     }
 
     async DeletePerson(req, res ){
-        const personiD = req.params("person_id")
+        const personID = req.params["person_id"]
         try {
-            const deletedPerson = await this.personUseCase.DeletePerson(personiD)
+            const deletedPerson = await this.personUseCase.DeletePerson(personID)
             res.status(200).json({
                 success : false, 
                 message : "person deleted successfully",
@@ -83,13 +83,13 @@ class PersonController {
     }
 
     async GetPersonByID(req, res ){
-        const personiD = req.params("person_id")
+        const personID = req.params["person_id"]
         try {
-            const foundPerson = await this.personUseCase.GetPersonByID(personiD)
+            const foundPerson = await this.personUseCase.GetPersonByID(personID)
             res.status(200).json({
                 success : false, 
                 message : "person fetched successfully",
-                deleted_person : foundPerson
+                found_person : foundPerson
             })
         } catch(err) {
             if (err.message == "person with the specified id not found") {
