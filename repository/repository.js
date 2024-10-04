@@ -36,9 +36,9 @@ class PersonRepository {
         }
     }
 
-    async GetPersonByID(person_id) {
+    async GetPersonByID(personID) {
         try {
-            const person = this.db.find((person) => person.id === person_id);
+            const person = this.db.find((person) => person.id === personID);
             if (!person) {
                 throw new Error("person with the specified id not found");
             }
@@ -53,20 +53,42 @@ class PersonRepository {
         }
     }
 
-    async DeletePerson(person_id) {
+    async DeletePerson(personID) {
         try {
 
-            const deletedPerson = this.db.find((person) => person.id === person_id);
+            const deletedPerson = this.db.find((person) => person.id === personID);
             if (!deletedPerson) {
                 throw new Error("person with the specified id not found");
             }
             this.db = this.db.filter((person) => {
-                person.id !== person_id
+                person.id !== personID
             })
         
             return deletedPerson
         } catch(error) {
             throw new Error(error.message)
+        }
+    }
+    
+    async UpdatePerson(personID, name, age, hobbies) {
+        try {
+            const personIndex = this.db.findIndex((person) => person.id === personID);
+            if (personIndex === -1) {
+                throw new Error("person with the specified id not found");
+            }
+
+            const updatedPerson = {
+                ...this.db[personIndex],
+                name: name || this.db[personIndex].name,
+                age: age || this.db[personIndex].age, 
+                hobbies: hobbies || this.db[personIndex].hobbies 
+            };
+    
+            this.db[personIndex] = updatedPerson;
+    
+            return updatedPerson;
+        } catch (error) {
+            throw new Error(error.message);
         }
     }
     

@@ -32,12 +32,12 @@ class PersonController {
     }
 
     async UpdatePerson(req, res) {
-        const personID = req.params["person_id"]
+        const personID = req.params["personID"]
         try {
             const {name, age, hobbies} = req.body
             if (name && (typeof name != 'string' ||
-                name.trim() === '') || (age && typeof age != 'number'
-                || age < 0) || (hobbies && !Array.isArray(hobbies))) {
+                name.trim() === '') || (age && (typeof age != 'number'
+                || age < 0)) || (hobbies && !Array.isArray(hobbies))) {
                     res.status(400).json({
                         success : false,
                         message : "invalid request format"
@@ -59,7 +59,7 @@ class PersonController {
     }
 
     async DeletePerson(req, res ){
-        const personID = req.params["person_id"]
+        const personID = req.params["personID"]
         try {
             const deletedPerson = await this.personUseCase.DeletePerson(personID)
             res.status(200).json({
@@ -83,7 +83,7 @@ class PersonController {
     }
 
     async GetPersonByID(req, res ){
-        const personID = req.params["person_id"]
+        const personID = req.params["personID"]
         try {
             const foundPerson = await this.personUseCase.GetPersonByID(personID)
             res.status(200).json({
