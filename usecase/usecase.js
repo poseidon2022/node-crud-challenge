@@ -48,3 +48,5 @@ class PersonUseCase {
         }
     }
 }
+
+module.exports = PersonUseCase

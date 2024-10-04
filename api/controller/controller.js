@@ -6,13 +6,15 @@ class PersonController {
     async Register(req, res) {
         try {
             const {name, age, hobbies} = req.body
-            if (typeof name != String ||
-                name.trim() == '' || typeof age != Number
-                || age < 0 || typeof hobbies != Array) {
+            if (typeof name !== 'string' || name.trim() === '' ||
+                typeof age !== 'number' || age < 0 ||
+                !Array.isArray(hobbies)) {
                     res.status(400).json({
                         success : false,
                         message : "invalid request format"
                     })
+
+                    return
             }
 
             const registeredPerson = await this.personUseCase.Register(name, age, hobbies)
@@ -33,9 +35,9 @@ class PersonController {
         const personID = req.params("person_id")
         try {
             const {name, age, hobbies} = req.body
-            if (name && (typeof name != String ||
-                name.trim() == '') || (age && typeof age != Number
-                || age < 0) || (hobbies && typeof hobbies != Array)) {
+            if (name && (typeof name != 'string' ||
+                name.trim() === '') || (age && typeof age != 'number'
+                || age < 0) || (hobbies && !Array.isArray(hobbies))) {
                     res.status(400).json({
                         success : false,
                         message : "invalid request format"
@@ -106,8 +108,8 @@ class PersonController {
 
     async GetAllPersons(req, res) {
         try {
-            allPersons = await this.personUseCase.GetAllPersons()
-            res.status(500).json({
+            const allPersons = await this.personUseCase.GetAllPersons()
+            res.status(200).json({
                 success : true,
                 message : "persons fetched successfully",
                 persons : allPersons

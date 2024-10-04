@@ -1,22 +1,24 @@
-const express = require('express')
-const cors = require('cors')
-const app = express()
+const express = require('express');
+const cors = require('cors');
+const app = express();
 
-
-app.use(cors())
-app.use(express.json())
+app.use(cors());
+app.use(express.json());
 
 let persons = [{
     id: '1',
     name: 'Sam',
     age: '26',
-    hobbies: []    
-}] //This is your in memory database
+    hobbies: []
+}];
 
-app.set('db', persons)
-//TODO: Implement crud of person
+module.exports = { persons, app };
 
-if (require.main === module) {
-    app.listen(3000)
-}
-module.exports = app;
+// Delay requiring the router until after persons is initialized
+const personRouter = require('./api/router/router');
+app.use('', personRouter);
+
+const PORT = 3000;
+app.listen(PORT, () => {
+    console.log(`app running on port ${PORT}`);
+});
